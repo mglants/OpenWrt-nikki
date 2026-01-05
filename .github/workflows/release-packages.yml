@@ -9,7 +9,7 @@ on:
 jobs:
   release:
     name: ${{ matrix.arch }}-${{ matrix.branch }} release
-    runs-on: ubuntu-latest
+    runs-on: arc-runner-set-openwrt-nikki
     continue-on-error: true
     strategy:
       fail-fast: false
