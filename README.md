@@ -19,6 +19,7 @@ Transparent Proxy with Mihomo on OpenWrt.
 - Profile Mixin
 - Profile Editor
 - Scheduled Restart
+- HWID Support
 
 ## Install & Update
 
