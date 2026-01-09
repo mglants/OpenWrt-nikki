@@ -11,7 +11,6 @@ jobs:
     outputs:
       pkg_source_version: ${{ steps.info.outputs.pkg_source_version }}
       pkg_mirror_hash: ${{ steps.info.outputs.pkg_mirror_hash }}
-      pkg_build_version: ${{ steps.info.outputs.pkg_build_version }}
     steps:
       - id: checkout
         name: checkout
@@ -25,15 +24,10 @@ jobs:
         run: |
           echo "pkg_source_version=$(grep "PKG_SOURCE_VERSION:=" nikkix/nikkix/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
           echo "pkg_mirror_hash=$(grep "PKG_MIRROR_HASH:=" nikkix/nikkix/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
-          echo "pkg_build_version=$(grep "PKG_BUILD_VERSION:=" nikkix/nikkix/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
   get_latest_info:
     runs-on: ubuntu-latest
     outputs:
-      version_tag: ${{ steps.info.outputs.version_tag }}
-      commit_date: ${{ steps.info.outputs.commit_date }}
-      commit_sha: ${{ steps.info.outputs.commit_sha }}
-      short_commit_sha: ${{ steps.info.outputs.short_commit_sha }}
-      checksum: ${{ steps.info.outputs.checksum }}
+      pkg_target_version: ${{ steps.info.outputs.pkg_target_version }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -54,24 +48,14 @@ jobs:
             git -C mihomo tag -l 'v[0-9]*' | sort -V | tail -n 1
           )"
 
-          echo "version_tag=$latest_tag" >> "$GITHUB_OUTPUT"
+          echo "pkg_target_version=$latest_tag" >> "$GITHUB_OUTPUT"
 
-          git -C mihomo checkout -q "$latest_tag"
-
-          echo "commit_date=$(git -C mihomo log -n 1 --format=%cs)" >> "$GITHUB_OUTPUT"
-          echo "commit_sha=$(git -C mihomo rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          echo "short_commit_sha=$(git -C mihomo rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
-
-          git -C mihomo config tar.xz.command "xz -c"
-          git -C mihomo archive --output=mihomo.tar.xz HEAD
-
-          echo "checksum=$(sha256sum mihomo.tar.xz | awk '{print $1}')" >> "$GITHUB_OUTPUT"
 
   update:
     needs:
       - get_current_info
       - get_latest_info
-    if: ${{ needs.get_current_info.outputs.pkg_source_version != needs.get_latest_info.outputs.version_tag }}
+    if: ${{ needs.get_current_info.outputs.pkg_source_version != needs.get_latest_info.outputs.pkg_target_version }}
     runs-on: ubuntu-latest
     steps:
       - id: checkout
@@ -85,22 +69,29 @@ jobs:
         name: update
         run: |
           sed -i "s/PKG_RELEASE:=.*/PKG_RELEASE:=1/" nikkix/nikkix/Makefile
-          sed -i "s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:=${{ needs.get_latest_info.outputs.commit_date }}/" nikkix/nikkix/Makefile
-          sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ needs.get_latest_info.outputs.version_tag }}/" nikkix/nikkix/Makefile
+          sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ needs.get_latest_info.outputs.pkg_target_version }}/" nikkix/nikkix/Makefile
           sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ needs.get_latest_info.outputs.checksum }}/" nikkix/nikkix/Makefile
-          sed -i "s/PKG_BUILD_VERSION:=.*/PKG_BUILD_VERSION:=${{ needs.get_latest_info.outputs.version_tag }}/" nikkix/nikkix/Makefile
+      - name: Calculate PKG_MIRROR_HASH
+        id: hash_cals
+        shell: bash
+        env:
+          MAKEFILE: ./nikkix/Makefile
+        run: |
+          pkg_mirror_hash=$(.ci/scripts/get_PKG_MIRROR_HASH.sh | grep '^MIRROR_HASH: ' | awk '{print $2}')
+          echo "PKG_MIRROR_HASH=$pkg_mirror_hash"
+          sed -i "s|^\(PKG_MIRROR_HASH\b.*\)=.*|\1=$pkg_mirror_hash|" "$MAKEFILE"
       - id: pr
         name: pr
         uses: peter-evans/create-pull-request@v6
         with:
           path: nikkix
           branch: dependabot
-          commit-message: "build: bump mihomo to ${{ needs.get_latest_info.outputs.version_tag }}"
-          title: "build: bump mihomo to ${{ needs.get_latest_info.outputs.version_tag }}"
+          commit-message: "build: bump mihomo to ${{ needs.get_latest_info.outputs.pkg_target_version }}"
+          title: "build: bump mihomo to ${{ needs.get_latest_info.outputs.pkg_target_version }}"
           body: |
             Stable release update
 
-            **mihomo:** `${{ needs.get_latest_info.outputs.version_tag }}`
+            **mihomo:** `${{ needs.get_latest_info.outputs.pkg_target_version }}`
 
             🔗 Changelog:
-            https://github.com/MetaCubeX/mihomo/compare/${{ needs.get_current_info.outputs.pkg_source_version }}...${{ needs.get_latest_info.outputs.version_tag }}
+            https://github.com/MetaCubeX/mihomo/compare/${{ needs.get_current_info.outputs.pkg_source_version }}...${{ needs.get_latest_info.outputs.pkg_target_version }}
