@@ -1,8 +1,19 @@
 [English](README.md)| [中文](README.zh.md) | Русский
 
-# Nikki
+# Nikkix
 
 Прозрачный прокси с **Mihomo** на **OpenWrt**.
+
+## Fork
+
+Это форк проекта **Nikki**.
+Оригинальный репозиторий: https://github.com/nikkinikki-org/OpenWrt-nikki
+
+Изменения:
+
+- Поддержка HWID
+- Удаление китйских листов
+- TPROXY по дефолту
 
 ## Требования
 
@@ -27,7 +38,7 @@
 
 ```shell
 # выполняется только один раз
-wget -O - https://github.com/mglants/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
+wget -O - https://github.com/mglants/nikkix/raw/refs/heads/main/feed.sh | ash
 ```
 
 #### 2. Установка
@@ -35,31 +46,31 @@ wget -O - https://github.com/mglants/OpenWrt-nikki/raw/refs/heads/main/feed.sh |
 ```shell
 # можно установить из shell или через меню `Software` в LuCI
 # для opkg
-opkg install nikki
-opkg install luci-app-nikki
-opkg install luci-i18n-nikki-zh-cn
+opkg install nikkix
+opkg install luci-app-nikkix
+opkg install luci-i18n-nikkix-ru
 
 # для apk
-apk add nikki
-apk add luci-app-nikki
-apk add luci-i18n-nikki-zh-cn
+apk add nikkix
+apk add luci-app-nikkix
+apk add luci-i18n-nikkix-ru
 ```
 
 ### B. Установка из релиза
 
 ```shell
-wget -O - https://github.com/mglants/OpenWrt-nikki/raw/refs/heads/main/install.sh | ash
+wget -O - https://github.com/mglants/nikkix/raw/refs/heads/main/install.sh | ash
 ```
 
 ## Удаление и сброс настроек
 
 ```shell
-wget -O - https://github.com/mglants/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh | ash
+wget -O - https://github.com/mglants/nikkix/raw/refs/heads/main/uninstall.sh | ash
 ```
 
 ## Как использовать
 
-См. [Wiki](https://github.com/mglants/OpenWrt-nikki/wiki)
+См. [Wiki](https://github.com/mglants/nikkix/wiki)
 
 ## Как это работает
 
@@ -75,18 +86,18 @@ wget -O - https://github.com/mglants/OpenWrt-nikki/raw/refs/heads/main/uninstall
 
 ```shell
 # добавить feed
-echo "src-git nikki https://github.com/mglants/OpenWrt-nikki.git;main" >> "feeds.conf.default"
+echo "src-git nikkix https://github.com/mglants/nikkix.git;main" >> "feeds.conf.default"
 
 # обновить и установить feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
 # собрать пакет
-make package/luci-app-nikki/compile
+make package/luci-app-nikkix/compile
 ```
 
 Собранные пакеты будут находиться в каталоге:
-`bin/packages/your_architecture/nikki`.
+`bin/packages/your_architecture/nikkix`.
 
 ## Зависимости
 
@@ -102,7 +113,8 @@ make package/luci-app-nikki/compile
 
 ## Участники
 
-[![Contributors](https://contrib.rocks/image?repo=nikkinikki-org/OpenWrt-nikki)](https://github.com/mglants/OpenWrt-nikki/graphs/contributors)
+[![Участники](https://contrib.rocks/image?repo=nikkinikki-org/nikki)](https://github.com/nikkinikki-org/nikki/graphs/contributors)
+[![Участники](https://contrib.rocks/image?repo=mglants/nikkix)](https://github.com/mglants/nikkix/graphs/contributors)
 
 ## Особая благодарность
 

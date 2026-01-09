@@ -1,0 +1,60 @@
+{
+    "admin/services/nikkix": {
+        "title": "Nikkix",
+        "action": {
+            "type": "firstchild"
+        },
+        "depends": {
+            "acl": [ "luci-app-nikkix" ],
+            "uci": { "nikkix": true }
+        }
+    },
+    "admin/services/nikkix/config": {
+        "title": "App Config",
+        "order": 10,
+        "action": {
+            "type": "view",
+            "path": "nikkix/app"
+        }
+    },
+    "admin/services/nikkix/profile": {
+        "title": "Profile",
+        "order": 20,
+        "action": {
+            "type": "view",
+            "path": "nikkix/profile"
+        }
+    },
+    "admin/services/nikkix/mixin": {
+        "title": "Mixin Config",
+        "order": 30,
+        "action": {
+            "type": "view",
+            "path": "nikkix/mixin"
+        }
+    },
+    "admin/services/nikkix/proxy": {
+        "title": "Proxy Config",
+        "order": 40,
+        "action": {
+            "type": "view",
+            "path": "nikkix/proxy"
+        }
+    },
+    "admin/services/nikkix/editor": {
+        "title": "Editor",
+        "order": 50,
+        "action": {
+            "type": "view",
+            "path": "nikkix/editor"
+        }
+    },
+    "admin/services/nikkix/log": {
+        "title": "Log",
+        "order": 60,
+        "action": {
+            "type": "view",
+            "path": "nikkix/log"
+        }
+    }
+}

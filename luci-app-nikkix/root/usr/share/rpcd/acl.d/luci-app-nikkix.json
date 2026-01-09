@@ -1,0 +1,37 @@
+{
+    "luci-app-nikkix": {
+        "description": "Grant access to nikkix procedures",
+        "read": {
+            "uci": [ "nikkix" ],
+            "ubus": {
+                "rc": [ "*" ],
+                "luci.nikkix": [ "*" ]
+            },
+            "file": {
+                "/etc/nikkix/profiles/*.yaml": ["read"],
+                "/etc/nikkix/profiles/*.yml": ["read"],
+                "/etc/nikkix/subscriptions/*.yaml": ["read"],
+                "/etc/nikkix/subscriptions/*.yml": ["read"],
+                "/etc/nikkix/mixin.yaml": ["read"],
+                "/etc/nikkix/run/config.yaml": ["read"],
+                "/etc/nikkix/run/providers/rule/*": ["read"],
+                "/etc/nikkix/run/providers/proxy/*": ["read"],
+                "/var/log/nikkix/*.log": ["read"]
+            }
+        },
+        "write": {
+            "uci": [ "nikkix" ],
+            "file": {
+                "/etc/nikkix/profiles/*.yaml": ["write"],
+                "/etc/nikkix/profiles/*.yml": ["write"],
+                "/etc/nikkix/subscriptions/*.yaml": ["write"],
+                "/etc/nikkix/subscriptions/*.yml": ["write"],
+                "/etc/nikkix/mixin.yaml": ["write"],
+                "/etc/nikkix/run/config.yaml": ["write"],
+                "/etc/nikkix/run/providers/rule/*": ["write"],
+                "/etc/nikkix/run/providers/proxy/*": ["write"],
+                "/var/log/nikkix/*.log": ["write"]
+            }
+        }
+    }
+}

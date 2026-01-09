@@ -53,12 +53,12 @@ jobs:
         uses: openwrt/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.branch }}
-          FEEDNAME: nikki
-          PACKAGES: luci-app-nikki
+          FEEDNAME: nikkix
+          PACKAGES: luci-app-nikkix
           NO_REFRESH_CHECK: true
 
       - name: upload
         uses: actions/upload-artifact@v4
         with:
-          name: nikki_${{ matrix.arch }}-${{ matrix.branch }}
-          path: bin/packages/${{ matrix.arch }}/nikki
+          name: nikkix_${{ matrix.arch }}-${{ matrix.branch }}
+          path: bin/packages/${{ matrix.arch }}/nikkix

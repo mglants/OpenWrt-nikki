@@ -1,10 +1,22 @@
-![GitHub License](https://img.shields.io/github/license/mglants/OpenWrt-nikki?style=for-the-badge&logo=github) ![GitHub Tag](https://img.shields.io/github/v/release/mglants/OpenWrt-nikki?style=for-the-badge&logo=github) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/mglants/OpenWrt-nikki/total?style=for-the-badge&logo=github) ![GitHub Repo stars](https://img.shields.io/github/stars/mglants/OpenWrt-nikki?style=for-the-badge&logo=github) [![Telegram](https://img.shields.io/badge/Telegram-gray?style=for-the-badge&logo=telegram)](https://t.me/nikkinikki_org)
+![GitHub License](https://img.shields.io/github/license/mglants/nikkix?style=for-the-badge&logo=github) ![GitHub Tag](https://img.shields.io/github/v/release/mglants/nikkix?style=for-the-badge&logo=github) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/mglants/nikkix/total?style=for-the-badge&logo=github) ![GitHub Repo stars](https://img.shields.io/github/stars/mglants/nikkix?style=for-the-badge&logo=github) [![Telegram](https://img.shields.io/badge/Telegram-gray?style=for-the-badge&logo=telegram)](https://t.me/nikkixnikkix_org)
 
-English | [中文](README.zh.md) | [Русский](README.ru.md)
+English | [Русский](README.ru.md)
 
-# Nikki
+# Nikkix
 
 Transparent Proxy with Mihomo on OpenWrt.
+)
+
+## Fork Notice
+
+This project is a fork of **Nikki**.
+Original repository: https://github.com/nikkinikki-org/OpenWrt-nikki
+
+Changes in this fork:
+
+- HWID Support
+- Removed Chinese lists
+- TPROXY by default
 
 ## Prerequisites
 
@@ -29,7 +41,7 @@ Transparent Proxy with Mihomo on OpenWrt.
 
 ```shell
 # only needs to be run once
-wget -O - https://github.com/mglants/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
+wget -O - https://github.com/mglants/nikkix/raw/refs/heads/main/feed.sh | ash
 ```
 
 2. Install
@@ -37,30 +49,28 @@ wget -O - https://github.com/mglants/OpenWrt-nikki/raw/refs/heads/main/feed.sh |
 ```shell
 # you can install from shell or `Software` menu in LuCI
 # for opkg
-opkg install nikki
-opkg install luci-app-nikki
-opkg install luci-i18n-nikki-zh-cn
+opkg install nikkix
+opkg install luci-app-nikkix
 # for apk
-apk add nikki
-apk add luci-app-nikki
-apk add luci-i18n-nikki-zh-cn
+apk add nikkix
+apk add luci-app-nikkix
 ```
 
 ### B. Install From Release
 
 ```shell
-wget -O - https://github.com/mglants/OpenWrt-nikki/raw/refs/heads/main/install.sh | ash
+wget -O - https://github.com/mglants/nikkix/raw/refs/heads/main/install.sh | ash
 ```
 
 ## Uninstall & Reset
 
 ```shell
-wget -O - https://github.com/mglants/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh | ash
+wget -O - https://github.com/mglants/nikkix/raw/refs/heads/main/uninstall.sh | ash
 ```
 
 ## How To Use
 
-See [Wiki](https://github.com/mglants/OpenWrt-nikki/wiki)
+See [Wiki](https://github.com/mglants/nikkix/wiki)
 
 ## How does it work
 
@@ -76,15 +86,15 @@ Note that the steps above may change base on config.
 
 ```shell
 # add feed
-echo "src-git nikki https://github.com/mglants/OpenWrt-nikki.git;main" >> "feeds.conf.default"
+echo "src-git nikkix https://github.com/mglants/nikkix.git;main" >> "feeds.conf.default"
 # update & install feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 # make package
-make package/luci-app-nikki/compile
+make package/luci-app-nikkix/compile
 ```
 
-The package files will be found under `bin/packages/your_architecture/nikki`.
+The package files will be found under `bin/packages/your_architecture/nikkix`.
 
 ## Dependencies
 
@@ -100,7 +110,8 @@ The package files will be found under `bin/packages/your_architecture/nikki`.
 
 ## Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=nikkinikki-org/OpenWrt-nikki)](https://github.com/mglants/OpenWrt-nikki/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=nikkinikki-org/nikki)](https://github.com/nikkinikki-org/nikki/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=mglants/nikkix)](https://github.com/mglants/nikkix/graphs/contributors)
 
 ## Special Thanks
 
@@ -109,8 +120,4 @@ The package files will be found under `bin/packages/your_architecture/nikki`.
 
 ## Recommended Proxy Provider
 
-Perfect Link is recommended
-
-All route on IEPL, All exit node at Akari, reliable and easy to use
-
-[Official Website](https://perfectlink.io) | [Customer Service](https://t.me/PerfectlinksupportBot)
+HWID supported providers is recommended power by
