@@ -80,6 +80,13 @@ jobs:
           pkg_mirror_hash=$(nikkix/.ci/scripts/get_PKG_MIRROR_HASH.sh | grep '^MIRROR_HASH: ' | awk '{print $2}')
           echo "PKG_MIRROR_HASH=$pkg_mirror_hash"
           sed -i "s|^\(PKG_MIRROR_HASH\b.*\)=.*|\1=$pkg_mirror_hash|" "$MAKEFILE"
+          old_ver=$(sed -n 's/^PKG_VERSION:=//p' "$MAKEFILE")
+          new_ver=$(awk -F. 'BEGIN{OFS="."}
+          {
+            $3 = $3 + 1
+            print
+          }' <<< "$old_ver")
+          sed -i "s/^PKG_VERSION:=.*/PKG_VERSION:=$new_ver/" "$MAKEFILE"
       - id: pr
         name: pr
         uses: peter-evans/create-pull-request@v6
