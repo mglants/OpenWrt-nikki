@@ -89,4 +89,4 @@ DownloadRawgit() {
 # Main
 DownloadRawgit
 echo -ne "Press any key to continue..."
-read -n 1 -s -r -t 60
+read -n 1 -s -r -t 60 || true
